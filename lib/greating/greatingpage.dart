@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/pages/todohomepage.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Greatingpage extends StatelessWidget {
-  Greatingpage({super.key});
-  // reference the box
-  final _myBox = Hive.box('myBox');
+  const Greatingpage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +30,8 @@ class Greatingpage extends StatelessWidget {
               side: BorderSide(color: Colors.black, width: 2),
             ),
             onPressed: () async {
-              _myBox.put('isFirstTime', false);
-
+              final prefer = await SharedPreferences.getInstance();
+              prefer.setBool('isFirstTime', false);
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (builder) => Homepage()),
               );
