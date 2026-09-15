@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/pages/todohomepage.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class Welcomepage extends StatelessWidget {
-  const Welcomepage({super.key});
+class Greatingpage extends StatelessWidget {
+  Greatingpage({super.key});
+  // reference the box
+  final _myBox = Hive.box('myBox');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +30,14 @@ class Welcomepage extends StatelessWidget {
               elevation: 0,
               side: BorderSide(color: Colors.black, width: 2),
             ),
-            onPressed: () {
-              // Navigate to the next screen
+            onPressed: () async {
+              _myBox.put('isFirstTime', false);
+
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (builder) => Homepage()),
+              );
             },
+
             child: const Text(
               'Get Started',
               style: TextStyle(
