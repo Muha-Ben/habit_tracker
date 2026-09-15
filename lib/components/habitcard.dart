@@ -7,7 +7,11 @@ class HabitCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.blueAccent,
-      shape: OutlineInputBorder(borderRadius: BorderRadius.circular(13)),
+      shape: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(13),
+        borderSide: BorderSide.none,
+      ),
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
