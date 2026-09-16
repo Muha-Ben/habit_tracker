@@ -23,6 +23,13 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  // delete habit
+  void deleteHabit(int index) {
+    setState(() {
+      habitsList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +56,7 @@ class _HomepageState extends State<Homepage> {
             habitName: habitsList[index][0],
             isDone: habitsList[index][1],
             onChanged: (val) => habitChecked(index, val!),
+            deletePressed: () => deleteHabit(index),
           );
         },
       ),

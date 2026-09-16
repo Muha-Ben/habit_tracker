@@ -1,25 +1,56 @@
 import 'package:flutter/material.dart';
 
-class HabitCard extends StatelessWidget {
+class HabitTile extends StatelessWidget {
   final String habitName;
   final bool isDone;
   final Function(bool?)? onChanged;
+  final void Function()? deletePressed;
 
-  const HabitCard({
+  const HabitTile({
     super.key,
     required this.habitName,
     required this.isDone,
     required this.onChanged,
+    required this.deletePressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      shape: RoundedRectangleBorder(),
-      contentPadding: const EdgeInsets.all(8.0),
-      tileColor: Colors.blue,
-      leading: Checkbox(value: isDone, onChanged: onChanged),
-      title: Text(habitName, style: TextStyle(fontSize: 20)),
+    return Card(
+      elevation: 0,
+      color: const Color.fromARGB(255, 118, 191, 251),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: BorderSide.none,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        child: Row(
+          children: [
+            Checkbox(
+              value: isDone,
+              onChanged: onChanged,
+              checkColor: Colors.white,
+            ),
+            Text(habitName, style: TextStyle(fontSize: 20)),
+            Expanded(child: SizedBox(width: 200)),
+            IconButton(
+              onPressed: deletePressed,
+              icon: Icon(
+                Icons.delete,
+                color: const Color.fromARGB(255, 117, 40, 36),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+    // ListTile(
+    //   shape:
+    //   contentPadding: const EdgeInsets.all(8.0),
+    //   tileColor: Colors.blue,
+    //   leading:
+    //   title:
+    // );
   }
 }
