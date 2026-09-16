@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/components/habitcard.dart';
+import 'package:habit_tracker/components/habittile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Homepage extends StatefulWidget {
@@ -45,7 +45,7 @@ class _HomepageState extends State<Homepage> {
       body: ListView.builder(
         itemCount: habitsList.length,
         itemBuilder: (context, index) {
-          return HabitCard(
+          return HabitTile(
             habitName: habitsList[index][0],
             isDone: habitsList[index][1],
             onChanged: (val) => habitChecked(index, val!),
