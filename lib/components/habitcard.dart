@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 
 class HabitCard extends StatelessWidget {
-  const HabitCard({super.key});
+  final String habitName;
+  final bool isDone;
+  final Function(bool?)? onChanged;
+
+  const HabitCard({
+    super.key,
+    required this.habitName,
+    required this.isDone,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.blueAccent,
-      shape: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(13),
-        borderSide: BorderSide.none,
-      ),
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Checkbox(value: true, onChanged: (val) {}),
-            Text('Flutter'),
-          ],
-        ),
-      ),
+    return ListTile(
+      shape: RoundedRectangleBorder(),
+      contentPadding: const EdgeInsets.all(8.0),
+      tileColor: Colors.blue,
+      leading: Checkbox(value: isDone, onChanged: onChanged),
+      title: Text(habitName, style: TextStyle(fontSize: 20)),
     );
   }
 }

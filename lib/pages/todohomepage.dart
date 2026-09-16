@@ -2,10 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/habitcard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Homepage extends StatelessWidget {
-  Homepage({super.key});
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   // list of habits
-  List habitsList = [HabitCard(), HabitCard()];
+  List habitsList = [
+    ['flutter', false],
+    ['English', false],
+  ];
+
+  // habit has checked
+  void habitChecked(int index, bool val) {
+    setState(() {
+      habitsList[index][1] = val;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +45,11 @@ class Homepage extends StatelessWidget {
       body: ListView.builder(
         itemCount: habitsList.length,
         itemBuilder: (context, index) {
-          return habitsList[index];
+          return HabitCard(
+            habitName: habitsList[index][0],
+            isDone: habitsList[index][1],
+            onChanged: (val) => habitChecked(index, val!),
+          );
         },
       ),
     );
