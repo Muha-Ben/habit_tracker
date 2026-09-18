@@ -36,10 +36,7 @@ class HabitTile extends StatelessWidget {
             Expanded(child: SizedBox(width: 200)),
             IconButton(
               onPressed: deletePressed,
-              icon: Icon(
-                Icons.delete,
-                color: const Color.fromARGB(255, 117, 40, 36),
-              ),
+              icon: Icon(Icons.delete, color: Colors.black),
             ),
           ],
         ),

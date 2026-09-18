@@ -17,7 +17,7 @@ class _HomepageState extends State<Homepage> {
     ['English', false],
   ];
   // habit Controller
-  final habitController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   // habit has checked
   void habitChecked(int index, bool val) {
     setState(() {
@@ -32,15 +32,20 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  // Save Function
+  void saveHabit() {}
+  // cancel Function
+  void cancelHabit() {}
+
   // floatingActionButton tapped
   void floatingActionTapped() {
     showDialog(
       context: context,
-      builder: (builder) => alertDialog(
-        habitController: habitController,
-        hintText: 'Habit name',
-        saveTapped: () => () {},
-        cancelTapped: () => () {},
+      builder: (builder) => Alertdialog(
+        formKey: formKey,
+        hintText: 'Habit Name',
+        cancelTapped: () => cancelHabit(),
+        saveTapped: () => saveHabit(),
       ),
     );
   }
