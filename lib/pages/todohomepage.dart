@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/components/alertdialog.dart';
 import 'package:habit_tracker/components/habittile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,8 @@ class _HomepageState extends State<Homepage> {
     ['flutter', false],
     ['English', false],
   ];
-
+  // habit Controller
+  final habitController = TextEditingController();
   // habit has checked
   void habitChecked(int index, bool val) {
     setState(() {
@@ -30,9 +32,30 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  // floatingActionButton tapped
+  void floatingActionTapped() {
+    showDialog(
+      context: context,
+      builder: (builder) => alertDialog(
+        habitController: habitController,
+        hintText: 'Habit name',
+        saveTapped: () => () {},
+        cancelTapped: () => () {},
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floating actionbutton
+      floatingActionButton: FloatingActionButton(
+        onPressed: floatingActionTapped,
+        backgroundColor: Colors.blue,
+        elevation: 0,
+        shape: CircleBorder(),
+        child: Icon(Icons.add, size: 30, color: Colors.black),
+      ),
       backgroundColor: const Color.fromARGB(255, 189, 223, 251),
       appBar: AppBar(
         leading: IconButton(

@@ -45,12 +45,5 @@ class HabitTile extends StatelessWidget {
         ),
       ),
     );
-    // ListTile(
-    //   shape:
-    //   contentPadding: const EdgeInsets.all(8.0),
-    //   tileColor: Colors.blue,
-    //   leading:
-    //   title:
-    // );
   }
 }
