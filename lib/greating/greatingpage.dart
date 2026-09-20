@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/pages/todohomepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
 
 class Greatingpage extends StatelessWidget {
-  const Greatingpage({super.key});
-
+  Greatingpage({super.key});
+  final _myBox = Hive.box('myBox');
   @override
   Widget build(BuildContext context) {
     return Scaffold(

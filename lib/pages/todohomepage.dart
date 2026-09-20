@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/components/alertdialog.dart';
 import 'package:habit_tracker/components/habittile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,21 +31,11 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
-  // Save Function
-  void saveHabit() {}
-  // cancel Function
-  void cancelHabit() {}
-
   // floatingActionButton tapped
   void floatingActionTapped() {
     showDialog(
       context: context,
-      builder: (builder) => Alertdialog(
-        formKey: formKey,
-        hintText: 'Habit Name',
-        cancelTapped: () => cancelHabit(),
-        saveTapped: () => saveHabit(),
-      ),
+      builder: (builder) => _addHabitDialog(hintText: 'Habit Name'),
     );
   }
 
@@ -90,4 +79,70 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
+
+  // Alert Dialog widget to add a new habit
+  Widget _addHabitDialog({required String hintText}) {
+    return Form(
+      key: formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: AlertDialog(
+        backgroundColor: const Color.fromARGB(255, 190, 222, 239),
+        content: TextFormField(
+          onSaved: (newValue) {
+            String habit = newValue![0].toUpperCase() + newValue.substring(1);
+            setState(() {
+              habitsList.add([habit, false]);
+            });
+          },
+          validator: (habit) {
+            if (habit == null || habit.trim().isEmpty) {
+              return 'Please enter a habit';
+            }
+            if (RegExp(r'\d').hasMatch(habit)) {
+              return 'Invalid habit name';
+            }
+            if (habitsList.any(
+              (list) => list[0].toLowerCase() == habit.toLowerCase(),
+            )) {
+              return 'Habit already exists';
+            }
+          },
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            hintText: hintText,
+          ),
+        ),
+        actions: [
+          MaterialButton(
+            elevation: 0,
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none,
+            ),
+            color: Colors.blue,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'),
+          ),
+          MaterialButton(
+            elevation: 0,
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none,
+            ),
+            color: Colors.blue,
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
+                Navigator.pop(context);
+              }
+            },
+            child: Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+  // Alert Dialog widget to edit an existed habit
 }

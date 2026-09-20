@@ -28,11 +28,19 @@ class HabitTile extends StatelessWidget {
         child: Row(
           children: [
             Checkbox(
+              side: BorderSide(color: Colors.black, width: 2),
               value: isDone,
               onChanged: onChanged,
               checkColor: Colors.white,
             ),
-            Text(habitName, style: TextStyle(fontSize: 20)),
+            Text(
+              habitName,
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             Expanded(child: SizedBox(width: 200)),
             IconButton(
               onPressed: deletePressed,
