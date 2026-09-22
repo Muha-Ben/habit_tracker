@@ -10,7 +10,7 @@ class Habitdatabase {
   }
 
   // save data
-  void saveDataToDatabase() {
+  void updateData() {
     _myBox.put('habitsList', habitsList);
   }
 }
