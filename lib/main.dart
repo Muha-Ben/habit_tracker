@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/greating/greatingpage.dart';
 import 'package:habit_tracker/pages/todohomepage.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // initialize hive
   await Hive.initFlutter();
   // open hive box
   await Hive.openBox('myBox');
-  final prefer = await SharedPreferences.getInstance();
+  final myBox = Hive.box('myBox');
 
-  bool isFirstTime = prefer.getBool('isFirstTime') ?? true;
+  bool isFirstTime = myBox.get('isFirstTime') ?? true;
   runApp(MyApp(isFirstTime: isFirstTime));
 }
 

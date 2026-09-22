@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/pages/todohomepage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive/hive.dart';
 
 class Greatingpage extends StatelessWidget {
@@ -31,8 +31,10 @@ class Greatingpage extends StatelessWidget {
               side: BorderSide(color: Colors.black, width: 2),
             ),
             onPressed: () async {
-              final prefer = await SharedPreferences.getInstance();
-              prefer.setBool('isFirstTime', false);
+              await _myBox.put('isFirstTime', false);
+
+              // final prefer = await SharedPreferences.getInstance();
+              // prefer.setBool('isFirstTime', false);
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (builder) => Homepage()),
               );
