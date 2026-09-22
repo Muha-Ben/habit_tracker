@@ -19,7 +19,7 @@ class _HomepageState extends State<Homepage> {
   void habitChecked(int index, bool val) {
     setState(() {
       db.habitsList[index][1] = val;
-      db.saveDataToDatabase();
+      db.updateData();
     });
   }
 
@@ -27,8 +27,28 @@ class _HomepageState extends State<Homepage> {
   void deleteHabit(int index) {
     setState(() {
       db.habitsList.removeAt(index);
-      db.saveDataToDatabase();
+      db.updateData();
     });
+    displaySnackBar('Habit was deleted successfully!');
+  }
+
+  // SnackBar
+  void displaySnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red.shade200,
+
+        elevation: 0,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide.none,
+        ),
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 20, color: Colors.black),
+        ),
+      ),
+    );
   }
 
   // settings button pressed
@@ -149,8 +169,9 @@ class _HomepageState extends State<Homepage> {
             String habit = newValue![0].toUpperCase() + newValue.substring(1);
             setState(() {
               db.habitsList.add([habit, false]);
-              db.saveDataToDatabase();
+              db.updateData();
             });
+            displaySnackBar('Habit added successfully');
           },
           validator: (habit) {
             if (habit == null || habit.trim().isEmpty) {
@@ -217,8 +238,9 @@ class _HomepageState extends State<Homepage> {
             String habit = newValue![0].toUpperCase() + newValue.substring(1);
             setState(() {
               db.habitsList[index][0] = habit;
-              db.saveDataToDatabase();
+              db.updateData();
             });
+            displaySnackBar('Habit\'s name changed successfully!');
           },
           validator: (habit) {
             if (habit == null || habit.trim().isEmpty) {
