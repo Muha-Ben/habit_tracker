@@ -1,6 +1,7 @@
 # habit_tracker
 
 A new Flutter project.
+now i sill need to add snackbar for adding habits or deleting habits
 
 ## Getting Started
 
