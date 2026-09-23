@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/habittile.dart';
 import 'package:habit_tracker/database/habitdatabase.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -106,7 +107,30 @@ class _HomepageState extends State<Homepage> {
         ),
         centerTitle: true,
       ),
-      body: db.habitsList.isEmpty ? _buildEmptyState() : _buildAndDisplay(),
+      body: db.habitsList.isEmpty
+          ? _buildEmptyState()
+          : Column(
+              children: [
+                _buildHeatmap(), // ✅ الـ Heatmap الجديد
+                Expanded(
+                  child: _buildAndDisplay(), // ✅ قائمة العادات
+                ),
+              ],
+            ),
+    );
+  }
+
+  // دالة الـ Heatmap
+  Widget _buildHeatmap() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: HeatMapCalendar(
+        colorsets: {}, // ✅ غيّرناها
+        textColor: Colors.black,
+        size: 30,
+        borderRadius: 4,
+        margin: EdgeInsets.all(4),
+      ),
     );
   }
 
