@@ -16,10 +16,20 @@ class _HomepageState extends State<Homepage> {
   Habitdatabase db = Habitdatabase();
   // habit Controller
   final formKey = GlobalKey<FormState>();
+
   // habit has checked
   void habitChecked(int index, bool val) {
     setState(() {
-      db.habitsList[index][1] = val;
+      db.habitsList[index]["isDone"] = val; // ✅ غيرنا من [1] إلى ["isDone"]
+
+      // إذا اكتملت العادة، سجل التاريخ
+      if (val) {
+        String todayDate = DateTime.now().toString().split(' ')[0];
+        if (!db.habitsList[index]["completedDates"].contains(todayDate)) {
+          db.habitsList[index]["completedDates"].add(todayDate);
+        }
+      }
+
       db.updateData();
     });
   }
@@ -122,10 +132,27 @@ class _HomepageState extends State<Homepage> {
 
   // دالة الـ Heatmap
   Widget _buildHeatmap() {
+    // تحويل البيانات من String إلى DateTime
+    Map<DateTime, int> heatmapData = {};
+
+    for (var habit in db.habitsList) {
+      for (String dateStr in habit["completedDates"]) {
+        // تحويل "2026-09-12" إلى DateTime
+        DateTime date = DateTime.parse(dateStr);
+        heatmapData[date] = (heatmapData[date] ?? 0) + 1;
+      }
+    }
+
     return Padding(
       padding: EdgeInsets.all(10),
       child: HeatMapCalendar(
-        colorsets: {}, // ✅ غيّرناها
+        datasets: heatmapData,
+        colorsets: {
+          0: Colors.grey[300]!, // ⬜ لا عادات اكتملت
+          1: Colors.green[300]!, // 🟩 عادة واحدة
+          2: Colors.green[500]!, // 🟩 عادتان
+          3: Colors.green[700]!, // 🟩 ثلاث عادات أو أكتر
+        },
         textColor: Colors.black,
         size: 30,
         borderRadius: 4,
@@ -140,8 +167,8 @@ class _HomepageState extends State<Homepage> {
       itemCount: db.habitsList.length,
       itemBuilder: (context, index) {
         return HabitTile(
-          habitName: db.habitsList[index][0],
-          isDone: db.habitsList[index][1],
+          habitName: db.habitsList[index]["name"], // ✅
+          isDone: db.habitsList[index]["isDone"],
           onChanged: (val) => habitChecked(index, val!),
           deletePressed: (context) => deleteHabit(index),
           settingsPressed: (context) => settingsTapped(index),
@@ -192,7 +219,11 @@ class _HomepageState extends State<Homepage> {
           onSaved: (newValue) {
             String habit = newValue![0].toUpperCase() + newValue.substring(1);
             setState(() {
-              db.habitsList.add([habit, false]);
+              db.habitsList.add({
+                "name": habit,
+                "isDone": false,
+                "completedDates": [],
+              });
               db.updateData();
             });
             displaySnackBar('Habit added successfully');
@@ -205,7 +236,7 @@ class _HomepageState extends State<Homepage> {
               return 'Invalid habit name';
             }
             if (db.habitsList.any(
-              (list) => list[0].toLowerCase() == habit.toLowerCase(),
+              (h) => h["name"].toLowerCase() == habit.toLowerCase(), // ✅
             )) {
               return 'Habit already exists';
             }
@@ -261,7 +292,7 @@ class _HomepageState extends State<Homepage> {
           onSaved: (newValue) {
             String habit = newValue![0].toUpperCase() + newValue.substring(1);
             setState(() {
-              db.habitsList[index][0] = habit;
+              db.habitsList[index]["name"] = habit;
               db.updateData();
             });
             displaySnackBar('Habit\'s name changed successfully!');
@@ -274,9 +305,9 @@ class _HomepageState extends State<Homepage> {
               return 'Invalid habit name';
             }
             if (db.habitsList.any(
-              (list) => list[0].toLowerCase() == habit.toLowerCase(),
+              (h) => h["name"].toLowerCase() == habit.toLowerCase(), // ✅
             )) {
-              return 'Please type a new name';
+              return 'Please type a different name';
             }
             return null;
           },
