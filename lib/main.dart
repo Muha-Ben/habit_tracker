@@ -21,9 +21,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.isFirstTime});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: isFirstTime ? Greatingpage() : Homepage(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: Greatingpage());
   }
 }
