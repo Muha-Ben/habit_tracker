@@ -10,45 +10,51 @@ class Greatingpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 170, 206, 244),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset('images/welcome_habit_tracker_image.png'),
-          SizedBox(height: 130),
-          const Text(
-            'Welcome to Habits Tracker',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 97, 174, 237),
-              elevation: 0,
-              side: BorderSide(color: Colors.black, width: 2),
-            ),
-            onPressed: () async {
-              await _myBox.put('isFirstTime', false);
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
 
-              // final prefer = await SharedPreferences.getInstance();
-              // prefer.setBool('isFirstTime', false);
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (builder) => Homepage()),
-              );
-            },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 100),
+            Image.asset('images/welcome_habit_tracker_image.png'),
 
-            child: const Text(
-              'Get Started',
+            const SizedBox(height: 30),
+            const Text(
+              'Welcome to Habits Tracker',
               style: TextStyle(
-                color: Colors.black,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 97, 174, 237),
+                elevation: 0,
+                side: BorderSide(color: Colors.black, width: 2),
+              ),
+              onPressed: () async {
+                await _myBox.put('isFirstTime', false);
+
+                // final prefer = await SharedPreferences.getInstance();
+                // prefer.setBool('isFirstTime', false);
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (builder) => Homepage()),
+                );
+              },
+              child: const Text(
+                'Get Started',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
