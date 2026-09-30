@@ -20,7 +20,7 @@ class _HomepageState extends State<Homepage> {
   // habit has checked
   void habitChecked(int index, bool val) {
     setState(() {
-      db.habitsList[index]["isDone"] = val; // ✅ غيرنا من [1] إلى ["isDone"]
+      db.habitsList[index]["isDone"] = val;
 
       // إذا اكتملت العادة، سجل التاريخ
       if (val) {
@@ -166,7 +166,6 @@ class _HomepageState extends State<Homepage> {
         size: 30,
         borderRadius: 5,
         margin: EdgeInsets.all(4),
-        // showText: false,
       ),
     );
   }
@@ -177,7 +176,7 @@ class _HomepageState extends State<Homepage> {
       itemCount: db.habitsList.length,
       itemBuilder: (context, index) {
         return HabitTile(
-          habitName: db.habitsList[index]["name"], // ✅
+          habitName: db.habitsList[index]["name"],
           isDone: db.habitsList[index]["isDone"],
           onChanged: (val) => habitChecked(index, val!),
           deletePressed: (context) => deleteHabit(index),
