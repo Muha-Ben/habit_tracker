@@ -79,6 +79,7 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     db.loadData().then((_) {
+      db.resetHabitsIfNewDay();
       setState(() {});
     });
     super.initState();
@@ -104,12 +105,20 @@ class _HomepageState extends State<Homepage> {
       ),
       backgroundColor: const Color.fromARGB(255, 189, 223, 251),
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            _myBox.clear();
-          },
-          icon: Icon(Icons.delete),
-        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              _myBox.clear();
+              db.habitsList.clear();
+              setState(() {});
+            },
+            child: Text(
+              'Delete All',
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+
         backgroundColor: const Color.fromARGB(255, 97, 174, 237),
         title: Text(
           'Habit Tracker',
@@ -121,9 +130,9 @@ class _HomepageState extends State<Homepage> {
           ? _buildEmptyState()
           : Column(
               children: [
-                _buildHeatmap(), // ✅ الـ Heatmap الجديد
+                _buildHeatmap(), //  Heatmap
                 Expanded(
-                  child: _buildAndDisplay(), // ✅ قائمة العادات
+                  child: _buildAndDisplay(), // قائمة العادات
                 ),
               ],
             ),
@@ -132,12 +141,10 @@ class _HomepageState extends State<Homepage> {
 
   // دالة الـ Heatmap
   Widget _buildHeatmap() {
-    // تحويل البيانات من String إلى DateTime
     Map<DateTime, int> heatmapData = {};
 
     for (var habit in db.habitsList) {
       for (String dateStr in habit["completedDates"]) {
-        // تحويل "2026-09-12" إلى DateTime
         DateTime date = DateTime.parse(dateStr);
         heatmapData[date] = (heatmapData[date] ?? 0) + 1;
       }
@@ -148,15 +155,18 @@ class _HomepageState extends State<Homepage> {
       child: HeatMapCalendar(
         datasets: heatmapData,
         colorsets: {
-          0: Colors.grey[300]!, // ⬜ لا عادات اكتملت
-          1: Colors.green[300]!, // 🟩 عادة واحدة
-          2: Colors.green[500]!, // 🟩 عادتان
-          3: Colors.green[700]!, // 🟩 ثلاث عادات أو أكتر
+          0: Colors.grey[300]!,
+          1: Colors.green[300]!,
+          2: Colors.green[500]!,
+          3: Colors.green[700]!,
         },
+        colorMode: ColorMode.color,
+        defaultColor: Colors.grey[300]!,
         textColor: Colors.black,
         size: 30,
-        borderRadius: 4,
+        borderRadius: 5,
         margin: EdgeInsets.all(4),
+        // showText: false,
       ),
     );
   }
