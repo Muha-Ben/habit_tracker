@@ -18,7 +18,6 @@ class Greatingpage extends StatelessWidget {
           children: [
             SizedBox(height: 100),
             Image.asset('images/welcome_habit_tracker_image.png'),
-
             const SizedBox(height: 30),
             const Text(
               'Welcome to Habits Tracker',
@@ -36,8 +35,8 @@ class Greatingpage extends StatelessWidget {
                 elevation: 0,
                 side: BorderSide(color: Colors.black, width: 2),
               ),
-              onPressed: () async {
-                await _myBox.put('isFirstTime', false);
+              onPressed: () {
+                _myBox.put('isFirstTime', false);
 
                 // final prefer = await SharedPreferences.getInstance();
                 // prefer.setBool('isFirstTime', false);

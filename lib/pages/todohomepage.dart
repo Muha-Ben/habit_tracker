@@ -173,6 +173,7 @@ class _HomepageState extends State<Homepage> {
   //Build And display items
   Widget _buildAndDisplay() {
     return ListView.builder(
+      //
       itemCount: db.habitsList.length,
       itemBuilder: (context, index) {
         return HabitTile(
